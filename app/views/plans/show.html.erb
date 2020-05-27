@@ -1,3 +1,7 @@
+<% content_for :js_head do
+  javascript_include_tag "application_react"
+end %>
+
 <% chart_labels_by_technical_area = [
     "Legislation",
     "IHR coordination",
@@ -20,10 +24,7 @@
 ] %>
 
 <hr/>
-<div class="row">
-  <div class="col">
-    <%= react_component('PlanEditPage') %>
-  </div>
+<div id="plan-container">
 </div>
 <hr/>
 
@@ -209,6 +210,6 @@
         actions: <%= raw @all_actions.to_json %>,
         plan: <%= raw @plan.to_json %>,
         planActionIds: <%= @plan.action_ids %>
-    }
+    };
     window.NUDGES_BY_ACTION_TYPE = <%= raw @nudges_by_action_type_json %>;
 </script>
