@@ -1,5 +1,5 @@
 <% content_for :js_head do
-  javascript_include_tag "application_react"
+  javascript_pack_tag "application_react", 'data-turbolinks-track': 'reload'
 end %>
 
 <% chart_labels_by_technical_area = [
