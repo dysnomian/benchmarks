@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import { Provider } from "react-redux"
 import reducers from "../config/reducers"
 import ActionCount from "./ActionCount"
-import ActionList from "./list/ActionList"
+import ActionListByTechnicalArea from "./list/ActionListByTechnicalArea"
 
 class PlanEditPage extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class PlanEditPage extends React.Component {
     return (
       <Provider store={this.store}>
         <ActionCount />
-        <ActionList />
+        <ActionListByTechnicalArea />
       </Provider>
     )
   }

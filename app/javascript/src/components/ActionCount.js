@@ -12,7 +12,7 @@ const ActionCount = () => {
         <span>{countOfPlanActivityIds}</span>
       </div>
       <div className="col-auto">
-        <p>Total Activities</p>
+        <p>Total Actions</p>
       </div>
     </div>
   )
