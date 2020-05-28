@@ -24,14 +24,6 @@ end %>
 ] %>
 
 <div class="row">
-  <div class="col">
-    <hr/>
-    <%= react_component("PlanEditPage") %>
-    <hr/>
-  </div>
-</div>
-
-<div class="row">
 
   <div class="col plan-container" data-controller="plan"
        data-plan-term='<%= @plan.term %>'
@@ -58,14 +50,7 @@ end %>
       <!-- Count of Total Actions -->
       <div class="row">
         <div class="col mt-4">
-          <div class="row mx-0 action-count-header align-items-center">
-            <div class="action-count-circle col-auto d-flex flex-column align-items-center justify-content-center">
-              <span data-target="plan.actionCountCircle"><%= @plan.plan_actions.size %></span>
-            </div>
-            <div class="col-auto">
-              <p>Total Actions</p>
-            </div>
-          </div>
+          <%= react_component("PlanEditPage") %>
         </div>
       </div>
 
