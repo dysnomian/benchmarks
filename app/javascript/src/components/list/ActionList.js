@@ -4,9 +4,7 @@ import TechnicalArea from "./TechnicalArea"
 
 const ActionList = () => {
   const technicalAreas = useSelector((state) => state.technicalAreas)
-  // console.log(`GVT: technicalAreas: ${technicalAreas.map(asd => asd.text)}`)
-
-  const jsxOut = technicalAreas.map((technicalArea) => {
+  return technicalAreas.map((technicalArea) => {
     return (
       <TechnicalArea
         technicalArea={technicalArea}
@@ -15,9 +13,6 @@ const ActionList = () => {
       />
     )
   })
-  // console.log(`GVT: jsxOut: ${jsxOut}`)
-
-  return jsxOut
 }
 
 export default ActionList
