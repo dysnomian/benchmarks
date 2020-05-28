@@ -1,7 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 
-const ActivityCount = () => {
+const ActionCount = () => {
   const countOfPlanActivityIds = useSelector(
     (state) => state.planActivities.length
   )
@@ -18,4 +18,4 @@ const ActivityCount = () => {
   )
 }
 
-export default ActivityCount
+export default ActionCount
