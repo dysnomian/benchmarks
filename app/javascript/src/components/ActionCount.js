@@ -2,9 +2,9 @@ import React from "react"
 import { useSelector } from "react-redux"
 
 const ActionCount = () => {
-  const countOfPlanActivityIds = useSelector(
-    (state) => state.planActivities.length
-  )
+  const countOfPlanActivityIds = useSelector((state) => {
+    return state.planActivities.length
+  })
 
   return (
     <div className="row activity-count-header align-items-center mx-0">
