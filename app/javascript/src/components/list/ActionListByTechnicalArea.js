@@ -6,11 +6,7 @@ const ActionListByTechnicalArea = () => {
   const technicalAreas = useSelector((state) => state.technicalAreas)
   return technicalAreas.map((technicalArea) => {
     return (
-      <TechnicalArea
-        technicalArea={technicalArea}
-        sequence={technicalArea.sequence}
-        key={technicalArea.id}
-      />
+      <TechnicalArea technicalArea={technicalArea} key={technicalArea.id} />
     )
   })
 }
