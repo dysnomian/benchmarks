@@ -1,2 +1,4 @@
-// import React from "react" //eslint-disable-line
-// import ReactDOM from "react-dom" //eslint-disable-line
+// Support component names relative to this directory:
+var componentRequireContext = require.context("src/components", true)
+var ReactRailsUJS = require("react_ujs")
+ReactRailsUJS.useContext(componentRequireContext)
