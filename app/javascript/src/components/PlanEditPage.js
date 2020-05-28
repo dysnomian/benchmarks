@@ -1,14 +1,15 @@
 import React from "react"
 import { configureStore } from "@reduxjs/toolkit"
 import { Provider } from "react-redux"
-import reducersForActivities from "../config/reducers"
+import reducers from "../config/reducers"
 import ActionCount from "./ActionCount"
+import ActionList from "./list/ActionList"
 
 class PlanEditPage extends React.Component {
   constructor(props) {
     super(props)
     this.store = configureStore({
-      reducer: reducersForActivities,
+      reducer: reducers,
     })
   }
 
@@ -16,6 +17,7 @@ class PlanEditPage extends React.Component {
     return (
       <Provider store={this.store}>
         <ActionCount />
+        <ActionList />
       </Provider>
     )
   }
