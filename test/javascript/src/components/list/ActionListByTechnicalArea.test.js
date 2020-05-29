@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
-import ActionListByTechnicalArea from "../../../../app/javascript/src/components/list/ActionListByTechnicalArea"
+import ActionListByTechnicalArea from "components/list/ActionListByTechnicalArea"
 
 let container
 
@@ -33,10 +33,7 @@ jest.mock("react-redux", () => ({
     })
   ),
 }))
-jest.mock(
-  "../../../../app/javascript/src/components/list/TechnicalArea",
-  () => () => <mock-technicalarea />
-)
+jest.mock("components/list/TechnicalArea", () => () => <mock-technicalarea />)
 
 it("TechnicalArea has child Indicators filtered appropriately", () => {
   act(() => {
