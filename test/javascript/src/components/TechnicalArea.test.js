@@ -16,8 +16,8 @@ afterEach(() => {
 })
 
 jest.mock("react-redux", () => ({
-  useSelector: jest.fn().mockImplementation((state) =>
-    state({
+  useSelector: jest.fn().mockImplementation((callback) =>
+    callback({
       indicators: [
         {
           id: 1,
