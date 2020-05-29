@@ -18,7 +18,7 @@ afterEach(() => {
 jest.mock("react-redux", () => ({
   useSelector: jest
     .fn()
-    .mockImplementation((state) => state({ planActivities: [12, 34, 57] })),
+    .mockImplementation((state) => state({ planActionIds: [12, 34, 57] })),
 }))
 
 it("ActionCount populates itself with the expected integer", () => {
