@@ -1,8 +1,24 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Action from "./Action"
+import { useSelector } from "react-redux"
 
 const Indicator = (props) => {
   const indicator = props.indicator
+  const planActionIdsByIndicator = useSelector(
+    (state) => state.planActionIdsByIndicator
+  )
+
+  const allActions = useSelector((state) => state.actions)
+  const actionIds = planActionIdsByIndicator[indicator.id]
+  const actionDataObjects = allActions.filter(
+    (a) => actionIds.indexOf(a.id) >= 0
+  )
+  const compsForActions = actionDataObjects.map((actionData) => {
+    return (
+      <Action action={actionData} indicator={indicator} key={actionData.id} />
+    )
+  })
 
   return (
     <div className="benchmark-container col">
@@ -12,6 +28,7 @@ const Indicator = (props) => {
           {indicator.text}
         </div>
       </div>
+      {compsForActions}
     </div>
   )
 }
