@@ -5,11 +5,12 @@ import { useSelector } from "react-redux"
 
 const Indicator = (props) => {
   const indicator = props.indicator
-  const planActionIdsByIndicator = useSelector(
-    (state) => state.planActionIdsByIndicator
-  )
-
-  const allActions = useSelector((state) => state.actions)
+  const planActionIdsByIndicator = useSelector((state) => {
+    return state.planActionIdsByIndicator
+  })
+  const allActions = useSelector((state) => {
+    return state.actions
+  })
   const actionIds = planActionIdsByIndicator[indicator.id]
   const actionDataObjects = allActions.filter(
     (a) => actionIds.indexOf(a.id) >= 0
