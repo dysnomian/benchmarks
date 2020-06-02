@@ -1,13 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { useSelector, useStore } from "react-redux"
 import Action from "./Action"
-import { useSelector } from "react-redux"
+import getPlanActionIdsByIndicator from "../../config/selectors"
 
 const Indicator = (props) => {
   const indicator = props.indicator
-  const planActionIdsByIndicator = useSelector((state) => {
-    return state.planActionIdsByIndicator
-  })
+  const store = useStore()
+  const state = store.getState()
+  const planActionIdsByIndicator = getPlanActionIdsByIndicator(state)
   const allActions = useSelector((state) => {
     return state.actions
   })

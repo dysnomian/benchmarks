@@ -1,0 +1,3 @@
+const DELETE_ACTION = "DELETE_ACTION"
+
+export default DELETE_ACTION
