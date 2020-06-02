@@ -11,7 +11,6 @@ const Action = (props) => {
   const indicator = props.indicator
   const action = props.action
   const dispatch = useDispatch()
-  console.log("dispatch----------------------------------------", dispatch)
 
   return (
     <div className="action row p-2">
@@ -23,7 +22,8 @@ const Action = (props) => {
         </span>
       </div>
       <div className="col-10">
-        <strong>{indicator.display_abbreviation}</strong>do
+        <strong>{indicator.display_abbreviation}</strong>
+        &nbsp;
         <span className="action-text">{action.text}</span>
       </div>
       <div className="col">

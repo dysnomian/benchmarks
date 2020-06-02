@@ -26,7 +26,8 @@ const Indicator = (props) => {
     <div className="benchmark-container col">
       <div className="row bg-light-gray px-2 header">
         <div className="col-11">
-          <b>Benchmark {indicator.display_abbreviation} :</b>
+          <b>Benchmark {indicator.display_abbreviation}:</b>
+          &nbsp;
           {indicator.text}
         </div>
       </div>
