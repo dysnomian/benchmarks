@@ -1,26 +1,39 @@
 import { createSelector } from "@reduxjs/toolkit"
 
-const getPlanActionIds = (state) => state.planActionIds
+const getPlanActionIds = (state) => {
+  console.log("getPlanActionIds selector called..")
+  return state.planActionIds
+}
 const getActions = (state) => state.actions
+const getPlanActionIdsByIndicator = (state) => state.planActionIdsByIndicator
 
-const getPlanActionIdsByIndicator = createSelector(
-  [getPlanActionIds, getActions],
-  (planActionIds, actions) => {
-    let currentIndicatorId
-    const mapOfPlanActionIdsByIndicator = {}
-    actions.forEach((action) => {
-      if (action.benchmark_indicator_id !== currentIndicatorId) {
-        currentIndicatorId = action.benchmark_indicator_id
-      }
-      if (!mapOfPlanActionIdsByIndicator[currentIndicatorId]) {
-        mapOfPlanActionIdsByIndicator[currentIndicatorId] = []
-      }
-      if (window.STATE_FROM_SERVER.planActionIds.indexOf(action.id) >= 0) {
-        mapOfPlanActionIdsByIndicator[currentIndicatorId].push(action.id)
-      }
+const recalcPlanActionIdsByIndicator = createSelector(
+  [getPlanActionIds, getActions, getPlanActionIdsByIndicator],
+  (planActionIds, actions, planActionIdsByIndicator) => {
+    console.log(
+      "getPlanActionIdsByIndicator called..: ",
+      planActionIds,
+      typeof actions
+    )
+    const indicatorIds = Object.keys(planActionIdsByIndicator)
+    indicatorIds.forEach((indicatorId) => {
+      const actionIds = planActionIdsByIndicator[indicatorId]
+      actionIds.forEach((actionId) => {
+        const indexOfActionId = planActionIds.indexOf(actionId)
+        if (indexOfActionId === -1) {
+          planActionIdsByIndicator[indicatorId].splice(indexOfActionId, 1)
+        }
+      })
     })
-    return mapOfPlanActionIdsByIndicator
+    return planActionIdsByIndicator
   }
 )
 
-export default getPlanActionIdsByIndicator
+export default recalcPlanActionIdsByIndicator
+
+/*
+planActionIdsByIndicator = {
+  17: [2, 3, 4],
+  81: [3, 4, 5],
+}
+*/

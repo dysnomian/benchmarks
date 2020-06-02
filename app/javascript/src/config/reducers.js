@@ -13,9 +13,12 @@ export default function initReducers() {
     [DELETE_ACTION]: (state, action) => {
       const actionId = action.payload.id
       const indexOfActionId = state.indexOf(actionId)
+      console.log(`DELETE_ACTION: `, actionId, indexOfActionId, state.length)
       if (indexOfActionId >= 0) {
         state.splice(indexOfActionId, 1)
       }
+      console.log("state.len::", state.length)
+      return state
     },
   })
 
@@ -69,11 +72,15 @@ export default function initReducers() {
 
 /*
 planActionIdsByTechnicalArea = {
-  17: [1, 2, 3],
+  17: [ // technical area IDs
+    1, 2, 3 // action IDs
+  ],
   81: [2, 3, 4],
 }
 planActionIdsByIndicator = {
-  17: [2, 3, 4],
+  17: [ // indicator IDs
+    2, 3, 4 // action IDs
+  ],
   81: [3, 4, 5],
 }
 */

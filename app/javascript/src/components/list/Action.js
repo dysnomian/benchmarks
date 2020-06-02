@@ -12,6 +12,7 @@ const Action = (props) => {
   const action = props.action
   const dispatch = useDispatch()
 
+  console.log(`RENDER Action`)
   return (
     <div className="action row p-2">
       <div className="col-auto d-flex flex-row align-items-center">

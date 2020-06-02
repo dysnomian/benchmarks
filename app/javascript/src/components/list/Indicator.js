@@ -2,13 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useSelector, useStore } from "react-redux"
 import Action from "./Action"
-import getPlanActionIdsByIndicator from "../../config/selectors"
+import recalcPlanActionIdsByIndicator from "../../config/selectors"
 
 const Indicator = (props) => {
   const indicator = props.indicator
   const store = useStore()
   const state = store.getState()
-  const planActionIdsByIndicator = getPlanActionIdsByIndicator(state)
+  const planActionIdsByIndicator = recalcPlanActionIdsByIndicator(state)
   const allActions = useSelector((state) => {
     return state.actions
   })
@@ -22,6 +22,7 @@ const Indicator = (props) => {
     )
   })
 
+  console.log(`RENDER Indicator`)
   return (
     <div className="benchmark-container col">
       <div className="row bg-light-gray px-2 header">
