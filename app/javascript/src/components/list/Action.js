@@ -1,18 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { useDispatch } from "react-redux"
-import DELETE_ACTION from "../../constants"
-
-const deleteAction = (action, dispatch) => {
-  dispatch({ type: DELETE_ACTION, payload: { id: action.id } })
-}
 
 const Action = (props) => {
   const indicator = props.indicator
   const action = props.action
-  const dispatch = useDispatch()
+  const onDeleteAction = props.onDeleteAction
 
-  console.log(`RENDER Action`)
+  console.log(`RENDER Action:: `, indicator.display_abbreviation)
   return (
     <div className="action row p-2">
       <div className="col-auto d-flex flex-row align-items-center">
@@ -28,11 +22,7 @@ const Action = (props) => {
         <span className="action-text">{action.text}</span>
       </div>
       <div className="col">
-        <button
-          className="delete close"
-          type="button"
-          onClick={() => deleteAction(action, dispatch)}
-        >
+        <button className="delete close" type="button" onClick={onDeleteAction}>
           <img src="/delete-button.svg" alt="Delete this action" />
         </button>
       </div>
@@ -43,6 +33,7 @@ const Action = (props) => {
 Action.propTypes = {
   indicator: PropTypes.object.isRequired,
   action: PropTypes.object.isRequired,
+  onDeleteAction: PropTypes.func.isRequired,
 }
 
 export default Action

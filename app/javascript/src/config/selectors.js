@@ -1,39 +1,42 @@
 import { createSelector } from "@reduxjs/toolkit"
 
 const getPlanActionIds = (state) => {
-  console.log("getPlanActionIds selector called..")
   return state.planActionIds
 }
 const getActions = (state) => state.actions
-const getPlanActionIdsByIndicator = (state) => state.planActionIdsByIndicator
 
+/*
+Builds and returns data structure:
+planActionIdsByIndicator = {
+  17: // indicatorId
+    [2, 3, 4], // array of actionId
+  81:
+    [3, 4, 5],
+  ...
+}
+*/
 const recalcPlanActionIdsByIndicator = createSelector(
-  [getPlanActionIds, getActions, getPlanActionIdsByIndicator],
-  (planActionIds, actions, planActionIdsByIndicator) => {
+  [getPlanActionIds, getActions],
+  (planActionIds, actions) => {
     console.log(
-      "getPlanActionIdsByIndicator called..: ",
-      planActionIds,
-      typeof actions
+      "recalcPlanActionIdsByIndicator called.. "
+      // , planActionIds
     )
-    const indicatorIds = Object.keys(planActionIdsByIndicator)
-    indicatorIds.forEach((indicatorId) => {
-      const actionIds = planActionIdsByIndicator[indicatorId]
-      actionIds.forEach((actionId) => {
-        const indexOfActionId = planActionIds.indexOf(actionId)
-        if (indexOfActionId === -1) {
-          planActionIdsByIndicator[indicatorId].splice(indexOfActionId, 1)
-        }
-      })
+    const mapOfPlanActionIdsByIndicator = {}
+    let currentIndicatorId
+    actions.forEach((action) => {
+      if (action.benchmark_indicator_id !== currentIndicatorId) {
+        currentIndicatorId = action.benchmark_indicator_id
+      }
+      if (!mapOfPlanActionIdsByIndicator[currentIndicatorId]) {
+        mapOfPlanActionIdsByIndicator[currentIndicatorId] = []
+      }
+      if (planActionIds.indexOf(action.id) >= 0) {
+        mapOfPlanActionIdsByIndicator[currentIndicatorId].push(action.id)
+      }
     })
-    return planActionIdsByIndicator
+    return mapOfPlanActionIdsByIndicator
   }
 )
 
 export default recalcPlanActionIdsByIndicator
-
-/*
-planActionIdsByIndicator = {
-  17: [2, 3, 4],
-  81: [3, 4, 5],
-}
-*/
