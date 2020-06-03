@@ -9,7 +9,7 @@ const getActions = (state) => state.actions
 Builds and returns data structure:
 planActionIdsByIndicator = {
   17: // indicatorId
-    [2, 3, 4], // array of actionId
+    [2, 3, 4], // array of actionId, zero or more
   81:
     [3, 4, 5],
   ...
@@ -18,10 +18,7 @@ planActionIdsByIndicator = {
 const recalcPlanActionIdsByIndicator = createSelector(
   [getPlanActionIds, getActions],
   (planActionIds, actions) => {
-    console.log(
-      "recalcPlanActionIdsByIndicator called.. "
-      // , planActionIds
-    )
+    console.log("recalcPlanActionIdsByIndicator called.. ")
     const mapOfPlanActionIdsByIndicator = {}
     let currentIndicatorId
     actions.forEach((action) => {

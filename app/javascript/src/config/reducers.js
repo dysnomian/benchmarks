@@ -12,21 +12,12 @@ export default function initReducers() {
   const planActionIds = createReducer(window.STATE_FROM_SERVER.planActionIds, {
     [DELETE_ACTION]: (state, action) => {
       console.log("DELETE_ACTION called..")
-      const stateSnap = Array.from(state)
       const actionId = action.payload.id
-      const indexOfActionId = stateSnap.indexOf(actionId)
-      console.log(
-        `DELETE_ACTION: `,
-        actionId,
-        indexOfActionId,
-        stateSnap.length
-      )
+      const indexOfActionId = state.indexOf(actionId)
+      console.log(`DELETE_ACTION: `, actionId, indexOfActionId, state.length)
       if (indexOfActionId >= 0) {
-        stateSnap.splice(indexOfActionId, 1)
-        // return stateSnap.filter(aid => actionId !== aid)
+        state.splice(indexOfActionId, 1)
       }
-      console.log("state.len::", stateSnap.length)
-      return stateSnap
     },
   })
 
