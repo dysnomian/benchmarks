@@ -13,7 +13,7 @@ const Action = (props) => {
         <span
           className={`badge badge-pill badge-success badge-rounded-circle color-value-${action.level}`}
         >
-          <span className="action-level">0</span>
+          <span className="action-level">{action.level}</span>
         </span>
       </div>
       <div className="col-10">
