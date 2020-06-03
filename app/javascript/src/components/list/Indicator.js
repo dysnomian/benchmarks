@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { useDispatch, useSelector, shallowEqual } from "react-redux"
 import Action from "./Action"
 import recalcPlanActionIdsByIndicator from "../../config/selectors"
-import DELETE_ACTION from "../../constants"
+import { DELETE_ACTION } from "../../constants"
 
 const Indicator = (props) => {
   const indicator = props.indicator
