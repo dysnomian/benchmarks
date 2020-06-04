@@ -1,6 +1,9 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { combineReducers } from "@reduxjs/toolkit"
-import { DELETE_ACTION_FROM_INDICATOR, DELETE_ACTION } from "./constants"
+import {
+  DELETE_ACTION_FROM_INDICATOR,
+  DELETE_ACTION_FROM_PLAN,
+} from "./constants"
 
 export default function initReducers() {
   const technicalAreas = createReducer(
@@ -10,12 +13,10 @@ export default function initReducers() {
   const indicators = createReducer(window.STATE_FROM_SERVER.indicators, {})
   const actions = createReducer(window.STATE_FROM_SERVER.actions, {})
   const planActionIds = createReducer(window.STATE_FROM_SERVER.planActionIds, {
-    [DELETE_ACTION]: (state, action) => {
+    [DELETE_ACTION_FROM_PLAN]: (state, action) => {
       // console.log("DELETE_ACTION called.. ", state, action.payload)
-      const actionId = action.payload.id
-      let newState = [...state]
-      newState = newState.filter((aid) => actionId !== aid)
-      return newState
+      const actionIdToDelete = action.payload.actionId
+      return state.filter((actionId) => actionId !== actionIdToDelete)
     },
   })
 

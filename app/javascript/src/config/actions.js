@@ -1,12 +1,15 @@
-import { DELETE_ACTION, DELETE_ACTION_FROM_INDICATOR } from "./constants"
+import {
+  DELETE_ACTION_FROM_PLAN,
+  DELETE_ACTION_FROM_INDICATOR,
+} from "./constants"
 
 const deleteActionFromIndicator = (actionId, indicatorId) => {
-  return (dipatch) => {
-    dipatch({
-      type: DELETE_ACTION,
-      payload: { actionId: actionId, indicatorId: indicatorId },
+  return (dispatch) => {
+    dispatch({
+      type: DELETE_ACTION_FROM_PLAN,
+      payload: { actionId: actionId },
     })
-    dipatch({
+    dispatch({
       type: DELETE_ACTION_FROM_INDICATOR,
       payload: { actionId: actionId, indicatorId: indicatorId },
     })
