@@ -30,11 +30,11 @@ const Indicator = (props) => {
     )
   })
 
-  console.log(
-    `RENDER Indicator:: `,
-    indicator.display_abbreviation,
-    compsForActions.length
-  )
+  // console.log(
+  //   `RENDER Indicator:: `,
+  //   indicator.display_abbreviation,
+  //   compsForActions.length
+  // )
   return (
     <div className="benchmark-container col">
       <div className="row bg-light-gray px-2 header">

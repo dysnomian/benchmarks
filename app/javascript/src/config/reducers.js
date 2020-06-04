@@ -11,10 +11,11 @@ export default function initReducers() {
   const actions = createReducer(window.STATE_FROM_SERVER.actions, {})
   const planActionIds = createReducer(window.STATE_FROM_SERVER.planActionIds, {
     [DELETE_ACTION]: (state, action) => {
-      console.log("DELETE_ACTION called.. ", state, action.payload)
+      // console.log("DELETE_ACTION called.. ", state, action.payload)
       const actionId = action.payload.id
-
-      return state.filter((aid) => actionId !== aid)
+      let newState = [...state]
+      newState = newState.filter((aid) => actionId !== aid)
+      return newState
     },
   })
 
@@ -35,15 +36,13 @@ export default function initReducers() {
     initialMapOfPlanActionIdsByIndicator,
     {
       [DELETE_ACTION_FROM_INDICATOR]: (state, action) => {
-        console.log("DELETE_ACTION_FROM_INDICATOR:: ", state, action)
+        // console.log("DELETE_ACTION_FROM_INDICATOR:: ", state, action)
         const indicatorId = action.payload.indicatorId
         const actionId = action.payload.actionId
-        const newState = Object.assign({}, state)
-        // console.log("newState:: ", JSON.stringify(newState))
+        const newState = { ...state }
         newState[indicatorId] = newState[indicatorId].filter(
           (aid) => aid !== actionId
         )
-        // console.log("newState:: ", JSON.stringify(newState))
         return newState
       },
     }
