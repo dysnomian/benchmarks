@@ -2,21 +2,20 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector, shallowEqual } from "react-redux"
 import Action from "./Action"
-import recalcPlanActionIdsByIndicator from "../../config/selectors"
-import { DELETE_ACTION } from "../../constants"
+import { deleteActionFromIndicator } from "../../config/actions"
 
 const Indicator = (props) => {
   const indicator = props.indicator
   const dispatch = useDispatch()
   const onDeleteAction = (actionId) => {
     return () => {
-      dispatch({ type: DELETE_ACTION, payload: { id: actionId } })
+      dispatch(deleteActionFromIndicator(actionId, indicator.id))
     }
   }
-  const actions = useSelector((state) => state.actions, shallowEqual)
   const planActionIdsByIndicator = useSelector((state) => {
-    return recalcPlanActionIdsByIndicator(state)
+    return state.planActionIdsByIndicator
   })
+  const actions = useSelector((state) => state.actions, shallowEqual)
   const actionIds = planActionIdsByIndicator[indicator.id]
   const actionDataObjects = actions.filter((a) => actionIds.indexOf(a.id) >= 0)
   const compsForActions = actionDataObjects.map((actionData) => {

@@ -2,18 +2,11 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
 import Action from "components/list/Action"
-import { useDispatch } from "react-redux"
 import $ from "jquery"
 
-let container, action, indicator, mockDispatch
-
-jest.mock("react-redux", () => ({
-  useDispatch: jest.fn(),
-}))
+let container, action, indicator
 
 beforeEach(() => {
-  mockDispatch = jest.fn()
-  useDispatch.mockReturnValue(mockDispatch)
   container = document.createElement("div")
   document.body.appendChild(container)
   action = {
@@ -44,19 +37,31 @@ afterEach(() => {
 
 it("TechnicalArea has the expected ordinal and title", () => {
   act(() => {
-    ReactDOM.render(<Action action={action} indicator={indicator} />, container)
+    ReactDOM.render(
+      <Action
+        action={action}
+        indicator={indicator}
+        onDeleteAction={jest.fn()}
+      />,
+      container
+    )
   })
   expect(container.innerHTML).toMatch(action.text)
   expect(container.innerHTML).toMatch(indicator.display_abbreviation)
 })
 
 it("calls dispatch when the delete button is clicked", () => {
+  const mockDeleteAction = jest.fn()
   act(() => {
-    ReactDOM.render(<Action action={action} indicator={indicator} />, container)
+    ReactDOM.render(
+      <Action
+        action={action}
+        indicator={indicator}
+        onDeleteAction={mockDeleteAction}
+      />,
+      container
+    )
   })
-  let x = $(".delete.close", container)
-  x.trigger("click")
-  console.log("x", x)
-  console.log("container", container.innerHTML)
-  expect(mockDispatch).toHaveBeenCalled()
+  $(".delete.close", container).trigger("click")
+  expect(mockDeleteAction).toHaveBeenCalled()
 })

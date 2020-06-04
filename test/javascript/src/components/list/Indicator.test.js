@@ -25,6 +25,7 @@ const indicatorJson = {
 }
 
 jest.mock("react-redux", () => ({
+  useDispatch: () => jest.fn(),
   useSelector: jest
     .fn()
     // FIXME KLUDGE: we are doing this mockReturnValueOnce and mockReturnValue because this is a work-around for wonks.
