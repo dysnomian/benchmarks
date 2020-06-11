@@ -4,6 +4,7 @@ import { Provider } from "react-redux"
 import initReducers from "../config/reducers"
 import ActionCount from "./ActionCount"
 import ActionListByTechnicalArea from "./list/ActionListByTechnicalArea"
+import ChartCard from "./ChartCard/ChartCard"
 
 class PlanEditPage extends React.Component {
   constructor(props) {
@@ -16,8 +17,23 @@ class PlanEditPage extends React.Component {
   render() {
     return (
       <Provider store={this.store}>
-        <ActionCount />
-        <ActionListByTechnicalArea />
+        <div className="row">
+          <div className="col mt-4">
+            <ActionCount />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col mt-4">
+            <ChartCard />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col mt-4">
+            <ActionListByTechnicalArea />
+          </div>
+        </div>
       </Provider>
     )
   }

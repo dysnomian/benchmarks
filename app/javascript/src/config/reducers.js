@@ -49,11 +49,22 @@ export default function initReducers() {
     }
   )
 
+  const planChartLabels = createReducer(
+    window.STATE_FROM_SERVER.planChartLabels,
+    {}
+  )
+  const planChartSeries = createReducer(
+    window.STATE_FROM_SERVER.planChartSeries,
+    {}
+  )
+
   return combineReducers({
     technicalAreas: technicalAreas,
     indicators: indicators,
     actions: actions,
     planActionIds: planActionIds,
     planActionIdsByIndicator: planActionIdsByIndicator,
+    planChartLabels: planChartLabels,
+    planChartSeries: planChartSeries,
   })
 }
