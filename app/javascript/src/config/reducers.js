@@ -1,8 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { combineReducers } from "@reduxjs/toolkit"
 import {
-  DELETE_ACTION_FROM_INDICATOR,
+  ADD_ACTION_TO_PLAN,
+  ADD_ACTION_TO_INDICATOR,
+  ADD_ACTION_TO_NOT_IN_INDICATOR,
   DELETE_ACTION_FROM_PLAN,
+  DELETE_ACTION_FROM_INDICATOR,
+  DELETE_ACTION_FROM_NOT_IN_INDICATOR,
 } from "./constants"
 
 export default function initReducers() {
@@ -11,16 +15,25 @@ export default function initReducers() {
     {}
   )
   const indicators = createReducer(window.STATE_FROM_SERVER.indicators, {})
-  const actions = createReducer(window.STATE_FROM_SERVER.actions, {})
+  const actionMap = window.STATE_FROM_SERVER.actions.reduce((map, action) => {
+    map[action.id] = action
+    return map
+  }, {})
+  const actions = createReducer(actionMap, {})
+
   const planActionIds = createReducer(window.STATE_FROM_SERVER.planActionIds, {
+    [ADD_ACTION_TO_PLAN]: (state, action) => {
+      const actionIdToAdd = action.payload.actionId
+      state.push(actionIdToAdd)
+    },
     [DELETE_ACTION_FROM_PLAN]: (state, action) => {
-      // console.log("DELETE_ACTION called.. ", state, action.payload)
       const actionIdToDelete = action.payload.actionId
       return state.filter((actionId) => actionId !== actionIdToDelete)
     },
   })
 
   const initialMapOfPlanActionIdsByIndicator = {}
+  const initialMapOfPlanActionIdsNotInIndicator = {}
   let currentIndicatorId
   window.STATE_FROM_SERVER.actions.forEach((action) => {
     if (action.benchmark_indicator_id !== currentIndicatorId) {
@@ -29,22 +42,50 @@ export default function initReducers() {
     if (!initialMapOfPlanActionIdsByIndicator[currentIndicatorId]) {
       initialMapOfPlanActionIdsByIndicator[currentIndicatorId] = []
     }
+    if (!initialMapOfPlanActionIdsNotInIndicator[currentIndicatorId]) {
+      initialMapOfPlanActionIdsNotInIndicator[currentIndicatorId] = []
+    }
     if (window.STATE_FROM_SERVER.planActionIds.indexOf(action.id) >= 0) {
       initialMapOfPlanActionIdsByIndicator[currentIndicatorId].push(action.id)
+    } else {
+      initialMapOfPlanActionIdsNotInIndicator[currentIndicatorId].push(
+        action.id
+      )
     }
   })
+
   const planActionIdsByIndicator = createReducer(
     initialMapOfPlanActionIdsByIndicator,
     {
-      [DELETE_ACTION_FROM_INDICATOR]: (state, action) => {
-        // console.log("DELETE_ACTION_FROM_INDICATOR:: ", state, action)
+      [ADD_ACTION_TO_INDICATOR]: (state, action) => {
         const indicatorId = action.payload.indicatorId
         const actionId = action.payload.actionId
-        const newState = { ...state }
-        newState[indicatorId] = newState[indicatorId].filter(
+        state[indicatorId].push(actionId)
+      },
+      [DELETE_ACTION_FROM_INDICATOR]: (state, action) => {
+        const indicatorId = action.payload.indicatorId
+        const actionId = action.payload.actionId
+        state[indicatorId] = state[indicatorId].filter(
           (aid) => aid !== actionId
         )
-        return newState
+      },
+    }
+  )
+
+  const planActionIdsNotInIndicator = createReducer(
+    initialMapOfPlanActionIdsNotInIndicator,
+    {
+      [ADD_ACTION_TO_NOT_IN_INDICATOR]: (state, action) => {
+        const indicatorId = action.payload.indicatorId
+        const actionId = action.payload.actionId
+        state[indicatorId].unshift(actionId)
+      },
+      [DELETE_ACTION_FROM_NOT_IN_INDICATOR]: (state, action) => {
+        const indicatorId = action.payload.indicatorId
+        const actionId = action.payload.actionId
+        state[indicatorId] = state[indicatorId].filter(
+          (aid) => aid !== actionId
+        )
       },
     }
   )
@@ -59,12 +100,13 @@ export default function initReducers() {
   )
 
   return combineReducers({
-    technicalAreas: technicalAreas,
-    indicators: indicators,
-    actions: actions,
-    planActionIds: planActionIds,
-    planActionIdsByIndicator: planActionIdsByIndicator,
-    planChartLabels: planChartLabels,
-    planChartSeries: planChartSeries,
+    technicalAreas,
+    indicators,
+    actions,
+    planActionIds,
+    planActionIdsByIndicator,
+    planActionIdsNotInIndicator,
+    planChartLabels,
+    planChartSeries,
   })
 }

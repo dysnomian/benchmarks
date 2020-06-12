@@ -6,7 +6,6 @@ const Action = (props) => {
   const action = props.action
   const onDeleteAction = props.onDeleteAction
 
-  // console.log(`RENDER Action:: `, indicator.display_abbreviation)
   return (
     <div className="action row p-2">
       <div className="col-auto d-flex flex-row align-items-center">
