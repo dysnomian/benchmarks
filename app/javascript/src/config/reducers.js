@@ -99,6 +99,8 @@ export default function initReducers() {
     {}
   )
 
+  const allActions = createReducer(window.STATE_FROM_SERVER.actions, {})
+
   return combineReducers({
     technicalAreas,
     indicators,
@@ -108,5 +110,6 @@ export default function initReducers() {
     planActionIdsNotInIndicator,
     planChartLabels,
     planChartSeries,
+    allActions,
   })
 }

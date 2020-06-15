@@ -6,62 +6,65 @@ import $ from "jquery"
 
 class BarChartByTechnicalArea extends React.Component {
   constructor(props) {
+    // console.log(`GVT: BarChartByTechnicalArea.constructor called..`)
     super(props)
-    this.chartWidth = props.width
-    this.chartHeight = props.height
-    this.chartLabels = props.chartLabels[0]
-    this.chartDataSeries = props.chartDataSeries[0]
-    this.el = React.createRef()
-    this.chartistGraphComponent = React.createRef()
-    this.technicalAreas = props.technicalAreas
-  }
-
-  // componentDidMount() {
-  //   console.log("GVT BarChartByTechnicalArea.componentDidMount..")
-  // }
-
-  componentWillUnmount() {
-    console.log("GVT BarChartByTechnicalArea.componentWillUnmount..")
-    // Could add event listeners like so: this.chartistGraphComponent.chartist.on("created", () {...})
-    this.chartistGraphComponent.chartist.detach()
+    if (!this.chartistGraphInstance) {
+      this.chartistGraphInstance = null // will be a ref to the chartist instance
+    }
   }
 
   render() {
-    const { data, options } = this.getBarChartOptions()
+    // console.log(
+    //   `GVT: BarChartByTechnicalArea.render called.. this.props.planActionIds.length: `,
+    //   this.props.planActionIds.length
+    // )
+    const chartLabels = this.props.chartLabels[0]
+    const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
+      this.props.planActionIds,
+      this.props.allActions
+    )
+    const { data, options } = this.getBarChartOptions(
+      countActionsByTechnicalArea,
+      chartLabels
+    )
+    // console.log(
+    //   `GVT: countActionsByTechnicalArea: `,
+    //   countActionsByTechnicalArea,
+    //   data
+    // )
     return (
-      <div
-        className="chart-container ct-chart-bar"
-        ref={(ref) => (this.el = ref)}
-      >
+      <div className="chart-container ct-chart-bar">
         <ChartistGraph
           data={data}
           options={options}
           type="Bar"
-          ref={(ref) => (this.chartistGraphComponent = ref)}
-          listener={{ created: this.initInteractivityForChart.bind(this) }}
+          ref={(ref) => {
+            if (ref) this.chartistGraphInstance = ref
+          }}
+          listener={{
+            created: this.initInteractivityForChart.bind(
+              this,
+              countActionsByTechnicalArea
+            ),
+          }}
         />
       </div>
     )
   }
 
-  initInteractivityForChart() {
-    console.log(`GVT: initInteractivityForChart..`)
-    this.initInteractionForChartByTechnicalArea()
-  }
-
   // TODO: refactor this and methods like it that perform non-React DOM operations/augmentation/manipulation to a module
-  getBarChartOptions() {
-    const dataSet = this.chartDataSeries
+  getBarChartOptions(chartDataSeries, chartLabels) {
+    const dataSet = chartDataSeries
     let data = {
-      labels: this.chartLabels,
+      labels: chartLabels,
       series: [dataSet],
     }
     const heightValue = this.getNextMultipleOfTenForSeries(dataSet)
     let options = {
       high: heightValue,
       low: 0,
-      width: this.chartWidth,
-      height: this.chartHeight,
+      width: this.props.width,
+      height: this.props.height,
       axisY: {
         // show multiples of 10
         labelInterpolationFnc: function (value) {
@@ -81,7 +84,15 @@ class BarChartByTechnicalArea extends React.Component {
     return (currentMultipleOfTen + 1) * 10
   }
 
-  initInteractionForChartByTechnicalArea(domNode) {
+  initInteractivityForChart() {
+    const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
+      this.props.planActionIds,
+      this.props.allActions
+    )
+    const chartistGraph = this.chartistGraphInstance
+    // console.log(`GVT: initInteractivityForChart.. `, chartistGraph)
+    chartistGraph.chartist.detach()
+    const domNode = chartistGraph.chart
     $("line.ct-bar", domNode).each((segmentIndex, el) => {
       let $elBarSegment = $(el)
       // this.initClickHandlerForChartByTechnicalArea(
@@ -90,18 +101,37 @@ class BarChartByTechnicalArea extends React.Component {
       // )
       this.initTooltipForSegmentOfChartByTechnicalArea(
         $elBarSegment,
-        segmentIndex
+        segmentIndex,
+        countActionsByTechnicalArea[segmentIndex]
       )
     })
   }
 
-  initTooltipForSegmentOfChartByTechnicalArea($elBarSegment, index) {
-    const tooltipTitle = this.technicalAreas[index].text
+  initTooltipForSegmentOfChartByTechnicalArea(
+    $elBarSegment,
+    index,
+    countActions
+  ) {
+    // console.log(`GVT: initTooltipForSegmentOfChartByTechnicalArea: `, index, countActions)
+    const tooltipTitle = `${this.props.technicalAreas[index].text}: ${countActions}`
     $($elBarSegment)
       .attr("title", tooltipTitle)
       .attr("data-toggle", "tooltip")
       .tooltip({ container: ".plan-container" })
       .tooltip()
+  }
+
+  static countActionsByTechnicalArea(actionIds, actions) {
+    let currentActions = this.getActionsForIds(actions, actionIds)
+    return currentActions.reduce((acc, action) => {
+      const currentindex = action.benchmark_technical_area_id - 1
+      acc[currentindex]++
+      return acc
+    }, Array(18).fill(0))
+  }
+
+  static getActionsForIds(actions, actionIds) {
+    return actions.filter((action) => actionIds.indexOf(action.id) > 0)
   }
 }
 
@@ -111,6 +141,8 @@ BarChartByTechnicalArea.propTypes = {
   height: PropTypes.string.isRequired,
   chartLabels: PropTypes.array.isRequired,
   chartDataSeries: PropTypes.array.isRequired,
+  planActionIds: PropTypes.array.isRequired,
+  allActions: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state /*, ownProps*/) => {
@@ -118,6 +150,8 @@ const mapStateToProps = (state /*, ownProps*/) => {
     technicalAreas: state.technicalAreas,
     chartLabels: state.planChartLabels,
     chartDataSeries: state.planChartSeries,
+    planActionIds: state.planActionIds,
+    allActions: state.allActions,
   }
 }
 
