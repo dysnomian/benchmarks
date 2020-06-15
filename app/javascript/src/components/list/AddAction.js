@@ -20,6 +20,10 @@ const AddAction = (props) => {
   const [value, setValue] = useState("")
 
   const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: "none",
+    }),
     dropdownIndicator: (provided) => ({
       ...provided,
       opacity: 0,
@@ -32,18 +36,20 @@ const AddAction = (props) => {
     }),
   }
   return (
-    <Select
-      options={actionDataObjects}
-      getOptionLabel={(action) => action.text}
-      className="w-100"
-      styles={customStyles}
-      placeholder="+ Add Action"
-      onChange={(action) => {
-        selectAction(action, indicator, dispatch)
-        setValue("")
-      }}
-      value={value}
-    />
+    <div className="row action-form">
+      <Select
+        options={actionDataObjects}
+        getOptionLabel={(action) => action.text}
+        className="w-100"
+        styles={customStyles}
+        placeholder="+ Add Action"
+        onChange={(action) => {
+          selectAction(action, indicator, dispatch)
+          setValue("")
+        }}
+        value={value}
+      />
+    </div>
   )
 }
 
