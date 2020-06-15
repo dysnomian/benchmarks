@@ -4,10 +4,11 @@ import { act } from "react-dom/test-utils"
 import PlanEditPage from "components/PlanEditPage"
 
 let container
-jest.mock("components/list/ActionListByTechnicalArea", () => () => (
-  <mock-actionlistbytechnicalarea />
-))
 jest.mock("components/ActionCount", () => () => <mock-actioncount />)
+jest.mock("components/ChartCard", () => () => <mock-chartcard />)
+jest.mock("components/list/ActionListByTechnicalArea", () => () => (
+  <mock-actionlist />
+))
 container = document.createElement("div")
 
 beforeEach(() => {
@@ -20,14 +21,14 @@ afterEach(() => {
   container = null
 })
 
-it("ActionCount populates itself with the expected child components", () => {
+it("renders the expected child components", () => {
   act(() => {
     ReactDOM.render(<PlanEditPage />, container)
   })
-  const mockList = container.querySelectorAll("mock-actionlistbytechnicalarea")
-  expect(mockList.length).toEqual(1)
-  const mockActionCount = container.querySelectorAll("mock-actioncount")
-  expect(mockActionCount.length).toEqual(1)
+
+  expect(container.querySelectorAll("mock-actioncount").length).toEqual(1)
+  expect(container.querySelectorAll("mock-chartcard").length).toEqual(1)
+  expect(container.querySelectorAll("mock-actionlist").length).toEqual(1)
 })
 
 function stubStateFromServer() {
