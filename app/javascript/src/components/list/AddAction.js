@@ -10,12 +10,12 @@ const selectAction = (action, indicator, dispatch) => {
 
 const AddAction = (props) => {
   const indicator = props.indicator
-  const planActionIdsNotInIndicator = useSelector((state) => {
-    return state.planActionIdsNotInIndicator
-  })
   const dispatch = useDispatch()
-  const actionIds = planActionIdsNotInIndicator[indicator.id]
   const actions = useSelector((state) => state.actions, shallowEqual)
+  const planActionIdsNotInIndicator = useSelector(
+    (state) => state.planActionIdsNotInIndicator
+  )
+  const actionIds = planActionIdsNotInIndicator[indicator.id]
   const actionDataObjects = actionIds.map((actionId) => actions[actionId])
   const [value, setValue] = useState("")
 
@@ -35,6 +35,7 @@ const AddAction = (props) => {
       maxWidth: 0,
     }),
   }
+
   return (
     <div className="row action-form">
       <Select

@@ -35,7 +35,7 @@ afterEach(() => {
   container = null
 })
 
-it("TechnicalArea has the expected ordinal and title", () => {
+it("Action has the expected level, ordinal and title", () => {
   act(() => {
     ReactDOM.render(
       <Action
@@ -46,11 +46,12 @@ it("TechnicalArea has the expected ordinal and title", () => {
       container
     )
   })
+  expect(container.innerHTML).toMatch(action.level.toString())
   expect(container.innerHTML).toMatch(action.text)
   expect(container.innerHTML).toMatch(indicator.display_abbreviation)
 })
 
-it("calls dispatch when the delete button is clicked", () => {
+it("calls onDeleteAction when the delete button is clicked", () => {
   const mockDeleteAction = jest.fn()
   act(() => {
     ReactDOM.render(
