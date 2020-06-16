@@ -5,7 +5,7 @@ import PlanEditPage from "components/PlanEditPage"
 
 let container
 jest.mock("components/ActionCount", () => () => <mock-actioncount />)
-jest.mock("components/ChartCard", () => () => <mock-chartcard />)
+jest.mock("components/ChartCard/ChartCard", () => () => <mock-chartcard />)
 jest.mock("components/list/ActionListByTechnicalArea", () => () => (
   <mock-actionlist />
 ))
