@@ -3,10 +3,10 @@ import { connect } from "react-redux"
 import ChartistGraph from "react-chartist"
 import PropTypes from "prop-types"
 import $ from "jquery"
+import { selectTechnicalArea } from "../../config/actions"
 
 class BarChartByTechnicalArea extends React.Component {
   constructor(props) {
-    // console.log(`GVT: BarChartByTechnicalArea.constructor called..`)
     super(props)
     if (!this.chartistGraphInstance) {
       this.chartistGraphInstance = null // will be a ref to the chartist instance
@@ -14,10 +14,6 @@ class BarChartByTechnicalArea extends React.Component {
   }
 
   render() {
-    // console.log(
-    //   `GVT: BarChartByTechnicalArea.render called.. this.props.planActionIds.length: `,
-    //   this.props.planActionIds.length
-    // )
     const chartLabels = this.props.chartLabels[0]
     const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
       this.props.planActionIds,
@@ -27,11 +23,6 @@ class BarChartByTechnicalArea extends React.Component {
       countActionsByTechnicalArea,
       chartLabels
     )
-    // console.log(
-    //   `GVT: countActionsByTechnicalArea: `,
-    //   countActionsByTechnicalArea,
-    //   data
-    // )
     return (
       <div className="chart-container ct-chart-bar">
         <ChartistGraph
@@ -41,12 +32,7 @@ class BarChartByTechnicalArea extends React.Component {
           ref={(ref) => {
             if (ref) this.chartistGraphInstance = ref
           }}
-          listener={{
-            created: this.initInteractivityForChart.bind(
-              this,
-              countActionsByTechnicalArea
-            ),
-          }}
+          listener={{ created: this.initInteractivityForChart.bind(this) }}
         />
       </div>
     )
@@ -85,24 +71,26 @@ class BarChartByTechnicalArea extends React.Component {
   }
 
   initInteractivityForChart() {
+    const dispatch = this.props.dispatch
     const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
       this.props.planActionIds,
       this.props.allActions
     )
+    const technicalAreas = this.props.technicalAreas
     const chartistGraph = this.chartistGraphInstance
-    // console.log(`GVT: initInteractivityForChart.. `, chartistGraph)
     chartistGraph.chartist.detach()
     const domNode = chartistGraph.chart
     $("line.ct-bar", domNode).each((segmentIndex, el) => {
       let $elBarSegment = $(el)
-      // this.initClickHandlerForChartByTechnicalArea(
-      //   $elBarSegment,
-      //   segmentIndex
-      // )
       this.initTooltipForSegmentOfChartByTechnicalArea(
         $elBarSegment,
         segmentIndex,
         countActionsByTechnicalArea[segmentIndex]
+      )
+      this.initClickHandlerForChartByTechnicalArea(
+        $elBarSegment,
+        technicalAreas[segmentIndex],
+        dispatch
       )
     })
   }
@@ -121,11 +109,24 @@ class BarChartByTechnicalArea extends React.Component {
       .tooltip()
   }
 
+  initClickHandlerForChartByTechnicalArea(
+    $elBarSegment,
+    technicalArea,
+    dispatch
+  ) {
+    $elBarSegment.on("click", () => {
+      dispatch(selectTechnicalArea(technicalArea.id))
+    })
+  }
+
+  // TODO: there is a bug here i think, where the "Linking public health" technical area (12th via 0-index)
+  //   where the chart's tooltip shows 6 actions but the list for that indicator shows 7 actions (both filtered
+  //   and unfiltered) which means there is a discrepancy someplace in the action-tallying logic.
   static countActionsByTechnicalArea(actionIds, actions) {
     let currentActions = this.getActionsForIds(actions, actionIds)
     return currentActions.reduce((acc, action) => {
       const currentindex = action.benchmark_technical_area_id - 1
-      acc[currentindex]++
+      acc[currentindex] += 1
       return acc
     }, Array(18).fill(0))
   }
@@ -143,6 +144,7 @@ BarChartByTechnicalArea.propTypes = {
   chartDataSeries: PropTypes.array.isRequired,
   planActionIds: PropTypes.array.isRequired,
   allActions: PropTypes.array.isRequired,
+  dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state /*, ownProps*/) => {

@@ -5,6 +5,8 @@ import {
   DELETE_ACTION_FROM_PLAN,
   DELETE_ACTION_FROM_INDICATOR,
   DELETE_ACTION_FROM_NOT_IN_INDICATOR,
+  SELECT_TECHNICAL_AREA,
+  DESELECT_TECHNICAL_AREA,
 } from "./constants"
 
 const deleteActionFromIndicator = (actionId, indicatorId) => {
@@ -41,4 +43,27 @@ const addActionToIndicator = (actionId, indicatorId) => {
   }
 }
 
-export { addActionToIndicator, deleteActionFromIndicator }
+const selectTechnicalArea = (technicalAreaId) => {
+  return (dispatch) => {
+    dispatch({
+      type: SELECT_TECHNICAL_AREA,
+      payload: { technicalAreaId: technicalAreaId },
+    })
+  }
+}
+
+const clearFilterCriteria = () => {
+  return (dispatch) => {
+    // console.log()
+    dispatch({
+      type: DESELECT_TECHNICAL_AREA,
+    })
+  }
+}
+
+export {
+  addActionToIndicator,
+  deleteActionFromIndicator,
+  selectTechnicalArea,
+  clearFilterCriteria,
+}

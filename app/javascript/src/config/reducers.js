@@ -1,5 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit"
-import { combineReducers } from "@reduxjs/toolkit"
+import { combineReducers, createReducer } from "@reduxjs/toolkit"
 import {
   ADD_ACTION_TO_PLAN,
   ADD_ACTION_TO_INDICATOR,
@@ -7,6 +6,8 @@ import {
   DELETE_ACTION_FROM_PLAN,
   DELETE_ACTION_FROM_INDICATOR,
   DELETE_ACTION_FROM_NOT_IN_INDICATOR,
+  SELECT_TECHNICAL_AREA,
+  DESELECT_TECHNICAL_AREA,
 } from "./constants"
 
 export default function initReducers() {
@@ -99,6 +100,16 @@ export default function initReducers() {
     {}
   )
 
+  const selectedTechnicalAreaId = createReducer(null, {
+    [SELECT_TECHNICAL_AREA]: (state, dispatchedAction) => {
+      return dispatchedAction.payload.technicalAreaId
+    },
+    // eslint-disable-next-line no-unused-vars
+    [DESELECT_TECHNICAL_AREA]: (state, dispatchedAction) => {
+      return null
+    },
+  })
+
   const allActions = createReducer(window.STATE_FROM_SERVER.actions, {})
 
   return combineReducers({
@@ -111,5 +122,6 @@ export default function initReducers() {
     planChartLabels,
     planChartSeries,
     allActions,
+    selectedTechnicalAreaId,
   })
 }
