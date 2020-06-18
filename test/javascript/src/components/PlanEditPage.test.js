@@ -36,7 +36,12 @@ function stubStateFromServer() {
     technicalAreas: [],
     indicators: [],
     actions: [],
-    plan: {},
     planActionIds: [],
+    planActionIdsByIndicator: {},
+    planActionIdsNotInIndicator: {},
+    planChartLabels: [],
+    planChartSeries: [],
+    allActions: [],
+    selectedTechnicalAreaId: null,
   }
 }
