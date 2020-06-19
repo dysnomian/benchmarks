@@ -137,9 +137,9 @@ class BarChartByTechnicalArea extends React.Component {
 }
 
 BarChartByTechnicalArea.propTypes = {
-  technicalAreas: PropTypes.array.isRequired,
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
+  technicalAreas: PropTypes.array.isRequired,
   chartLabels: PropTypes.array.isRequired,
   chartDataSeries: PropTypes.array.isRequired,
   planActionIds: PropTypes.array.isRequired,
