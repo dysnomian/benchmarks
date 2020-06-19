@@ -62,7 +62,7 @@
       "./test/javascript/setup.js"
     ],
     "roots": [
-      "test/javascript"
+      "test/javascript/src/"
     ],
     "moduleDirectories": [
       "node_modules",

@@ -33,7 +33,6 @@ it("Indicator populates itself with the correct information", () => {
   act(() => {
     ReactDOM.render(<Indicator indicator={indicatorJson} />, container)
   })
-  console.log(container.textContent)
   expect(container.textContent).toContain(indicatorJson.text)
   expect(container.querySelectorAll("mock-indicator-list").length).toEqual(1)
   expect(container.querySelectorAll("mock-add-action").length).toEqual(1)
