@@ -64,7 +64,6 @@ end %>
         plan: <%= raw @plan.to_json %>,
         planActionIds: <%= @plan.action_ids %>,
         planChartLabels: <%= raw [chart_labels_by_technical_area, BenchmarkIndicatorAction::ACTION_TYPES].to_json %>,
-        planChartSeries: <%= [@count_actions_by_ta, @count_actions_by_type].to_json %>
     };
     window.NUDGES_BY_ACTION_TYPE = <%= raw @nudges_by_action_type_json %>;
 </script>

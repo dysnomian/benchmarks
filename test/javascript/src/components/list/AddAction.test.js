@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
-import AddAction from "../../../../../app/javascript/src/components/list/AddAction"
+import AddAction from "components/list/AddAction"
 
 let container, indicator
 

@@ -5,6 +5,9 @@ import ChartCard from "components/ChartCard/ChartCard"
 jest.mock("components/ChartCard/BarChartByTechnicalArea", () => () => (
   <mock-barchartbytechnicalarea />
 ))
+jest.mock("components/ChartCard/BarChartByActionType", () => () => (
+  <mock-barchartbyactiontype />
+))
 
 it("ChartCard has one child BarChartByTechnicalArea component", () => {
   const renderedComponent = renderForConnect(<ChartCard />)
@@ -14,6 +17,16 @@ it("ChartCard has one child BarChartByTechnicalArea component", () => {
   )
 
   expect(mockBarchartbytechnicalarea.length).toEqual(1)
+})
+
+it("ChartCard has one child BarChartByActionType component", () => {
+  const renderedComponent = renderForConnect(<ChartCard />)
+  const container = renderedComponent.container
+  const mockBarchartbyactiontype = container.querySelectorAll(
+    "mock-barchartbyactiontype"
+  )
+
+  expect(mockBarchartbyactiontype.length).toEqual(1)
 })
 
 it("ChartCard has the expected content children", () => {

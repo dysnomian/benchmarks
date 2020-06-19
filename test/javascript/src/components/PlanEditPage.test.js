@@ -6,9 +6,7 @@ import PlanEditPage from "components/PlanEditPage"
 let container
 jest.mock("components/ActionCount", () => () => <mock-actioncount />)
 jest.mock("components/ChartCard/ChartCard", () => () => <mock-chartcard />)
-jest.mock("components/list/ActionListByTechnicalArea", () => () => (
-  <mock-actionlist />
-))
+jest.mock("components/list/ActionList", () => () => <mock-actionlist />)
 container = document.createElement("div")
 
 beforeEach(() => {
@@ -40,7 +38,6 @@ function stubStateFromServer() {
     planActionIdsByIndicator: {},
     planActionIdsNotInIndicator: {},
     planChartLabels: [],
-    planChartSeries: [],
     allActions: [],
     selectedTechnicalAreaId: null,
   }

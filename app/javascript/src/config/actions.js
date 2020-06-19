@@ -7,9 +7,14 @@ import {
   DELETE_ACTION_FROM_NOT_IN_INDICATOR,
   SELECT_TECHNICAL_AREA,
   DESELECT_TECHNICAL_AREA,
+  SELECT_ACTION_TYPE,
+  DESELECT_ACTION_TYPE,
+  SWITCH_LIST_MODE,
+  LIST_MODE_BY_TECHNICAL_AREA,
+  LIST_MODE_BY_ACTION_TYPE,
 } from "./constants"
 
-const deleteActionFromIndicator = (actionId, indicatorId) => {
+const deleteAnAction = (actionId, indicatorId) => {
   return (dispatch) => {
     dispatch({
       type: DELETE_ACTION_FROM_PLAN,
@@ -49,21 +54,45 @@ const selectTechnicalArea = (technicalAreaId) => {
       type: SELECT_TECHNICAL_AREA,
       payload: { technicalAreaId: technicalAreaId },
     })
+    dispatch({
+      type: SWITCH_LIST_MODE,
+      payload: { listModeOrdinal: LIST_MODE_BY_TECHNICAL_AREA },
+    })
+  }
+}
+
+const selectActionType = (actionTypeOrdinal) => {
+  return (dispatch) => {
+    dispatch({
+      type: SELECT_ACTION_TYPE,
+      payload: { actionTypeOrdinal: actionTypeOrdinal },
+    })
+    dispatch({
+      type: SWITCH_LIST_MODE,
+      payload: { listModeOrdinal: LIST_MODE_BY_ACTION_TYPE },
+    })
   }
 }
 
 const clearFilterCriteria = () => {
   return (dispatch) => {
-    // console.log()
     dispatch({
       type: DESELECT_TECHNICAL_AREA,
+    })
+    dispatch({
+      type: DESELECT_ACTION_TYPE,
+    })
+    dispatch({
+      type: SWITCH_LIST_MODE,
+      payload: { listModeOrdinal: LIST_MODE_BY_TECHNICAL_AREA },
     })
   }
 }
 
 export {
   addActionToIndicator,
-  deleteActionFromIndicator,
+  deleteAnAction,
   selectTechnicalArea,
+  selectActionType,
   clearFilterCriteria,
 }

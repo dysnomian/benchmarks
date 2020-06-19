@@ -3,9 +3,9 @@ import { connect } from "react-redux"
 import ChartistGraph from "react-chartist"
 import PropTypes from "prop-types"
 import $ from "jquery"
-import { selectTechnicalArea } from "../../config/actions"
+import { selectActionType } from "../../config/actions"
 
-class BarChartByTechnicalArea extends React.Component {
+class BarChartByActionType extends React.Component {
   constructor(props) {
     super(props)
     if (!this.chartistGraphInstance) {
@@ -14,13 +14,14 @@ class BarChartByTechnicalArea extends React.Component {
   }
 
   render() {
-    const chartLabels = this.props.chartLabels[0]
-    const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
+    const chartLabels = this.props.chartLabels[1]
+    const countActionsByActionType = this.constructor.countActionsByActionType(
+      chartLabels.length,
       this.props.planActionIds,
       this.props.allActions
     )
     const { data, options } = this.getBarChartOptions(
-      countActionsByTechnicalArea,
+      countActionsByActionType,
       chartLabels
     )
     return (
@@ -71,8 +72,10 @@ class BarChartByTechnicalArea extends React.Component {
   }
 
   initInteractivityForChart() {
+    const chartLabels = this.props.chartLabels[1]
     const dispatch = this.props.dispatch
-    const countActionsByTechnicalArea = this.constructor.countActionsByTechnicalArea(
+    const countActionsByTechnicalArea = this.constructor.countActionsByActionType(
+      chartLabels.length,
       this.props.planActionIds,
       this.props.allActions
     )
@@ -114,20 +117,22 @@ class BarChartByTechnicalArea extends React.Component {
     dispatch
   ) {
     $elBarSegment.on("click", () => {
-      dispatch(selectTechnicalArea(technicalArea.id))
+      dispatch(selectActionType(technicalArea.id))
     })
   }
 
-  // TODO: there is a bug here i think, where the "Linking public health" technical area (12th via 0-index)
-  //   where the chart's tooltip shows 6 actions but the list for that indicator shows 7 actions (both filtered
-  //   and unfiltered) which means there is a discrepancy someplace in the action-tallying logic.
-  static countActionsByTechnicalArea(actionIds, actions) {
+  static countActionsByActionType(numOfActionTypes, actionIds, actions) {
     let currentActions = this.getActionsForIds(actions, actionIds)
     return currentActions.reduce((acc, action) => {
-      const currentindex = action.benchmark_technical_area_id - 1
-      acc[currentindex] += 1
+      const currentActionTypes = action.action_types
+      if (currentActionTypes && currentActionTypes.length > 0) {
+        currentActionTypes.forEach((intActionType) => {
+          const indexOfActionType = intActionType - 1
+          acc[indexOfActionType] += 1
+        })
+      }
       return acc
-    }, Array(18).fill(0))
+    }, Array(numOfActionTypes).fill(0))
   }
 
   static getActionsForIds(actions, actionIds) {
@@ -135,7 +140,7 @@ class BarChartByTechnicalArea extends React.Component {
   }
 }
 
-BarChartByTechnicalArea.propTypes = {
+BarChartByActionType.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   technicalAreas: PropTypes.array.isRequired,
@@ -154,4 +159,4 @@ const mapStateToProps = (state /*, ownProps*/) => {
   }
 }
 
-export default connect(mapStateToProps)(BarChartByTechnicalArea)
+export default connect(mapStateToProps)(BarChartByActionType)

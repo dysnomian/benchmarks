@@ -1,7 +1,7 @@
 import fs from "fs"
 import React from "react"
 import { render as renderForConnect } from "../../../test-utils-for-react"
-import BarChartByTechnicalArea from "components/ChartCard/BarChartByTechnicalArea"
+import BarChartByActionType from "components/ChartCard/BarChartByActionType"
 
 const strTechnicalAreas = fs.readFileSync(
   `${__dirname}/../../../../fixtures/files/all_benchmark_technical_areas.json`,
@@ -12,9 +12,9 @@ const strActions = fs.readFileSync(
   "utf-8"
 )
 
-it("BarChartByTechnicalArea has the expected 2 divs", () => {
+it("BarChartByActionType has the expected 2 divs", () => {
   const renderedComponent = renderForConnect(
-    <BarChartByTechnicalArea width="100%" height="240" />,
+    <BarChartByActionType width="100%" height="240" />,
     {
       initialState: {
         technicalAreas: JSON.parse(strTechnicalAreas),

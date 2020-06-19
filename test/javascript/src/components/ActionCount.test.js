@@ -2,8 +2,8 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
 import { useDispatch } from "react-redux"
-import ActionCount from "../../../../app/javascript/src/components/ActionCount"
-import { clearFilterCriteria } from "../../../../app/javascript/src/config/actions"
+import ActionCount from "components/ActionCount"
+import { clearFilterCriteria } from "config/actions"
 
 let container
 
@@ -17,7 +17,7 @@ afterEach(() => {
   container = null
 })
 
-jest.mock("../../../../app/javascript/src/config/actions", () => ({
+jest.mock("config/actions", () => ({
   clearFilterCriteria: jest.fn(),
 }))
 jest.mock("react-redux", () => ({

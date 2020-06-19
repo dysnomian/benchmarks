@@ -1,5 +1,6 @@
 import React from "react"
 import BarChartByTechnicalArea from "./BarChartByTechnicalArea"
+import BarChartByActionType from "./BarChartByActionType"
 import { connect } from "react-redux"
 
 class ChartCard extends React.Component {
@@ -111,12 +112,7 @@ class ChartCard extends React.Component {
                   {
                     // Actual Chart, by Action Type
                   }
-                  <div
-                    id="bar-chart-by-action-type"
-                    className="chart-container ct-chart-bar"
-                  >
-                    {" "}
-                  </div>
+                  <BarChartByActionType width="100%" height="240" />
                 </div>
 
                 {

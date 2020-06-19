@@ -8,6 +8,10 @@ import {
   DELETE_ACTION_FROM_NOT_IN_INDICATOR,
   SELECT_TECHNICAL_AREA,
   DESELECT_TECHNICAL_AREA,
+  SELECT_ACTION_TYPE,
+  DESELECT_ACTION_TYPE,
+  LIST_MODE_BY_TECHNICAL_AREA,
+  SWITCH_LIST_MODE,
 } from "./constants"
 
 export default function initReducers() {
@@ -15,7 +19,25 @@ export default function initReducers() {
     window.STATE_FROM_SERVER.technicalAreas,
     {}
   )
+  const technicalAreaMapInitial = window.STATE_FROM_SERVER.technicalAreas.reduce(
+    (map, technicalArea) => {
+      map[technicalArea.id] = technicalArea
+      return map
+    },
+    {}
+  )
+  const technicalAreaMap = createReducer(technicalAreaMapInitial, {})
+
   const indicators = createReducer(window.STATE_FROM_SERVER.indicators, {})
+  const indicatorMapInitial = window.STATE_FROM_SERVER.indicators.reduce(
+    (map, indicator) => {
+      map[indicator.id] = indicator
+      return map
+    },
+    {}
+  )
+  const indicatorMap = createReducer(indicatorMapInitial, {})
+
   const actionMap = window.STATE_FROM_SERVER.actions.reduce((map, action) => {
     map[action.id] = action
     return map
@@ -95,10 +117,6 @@ export default function initReducers() {
     window.STATE_FROM_SERVER.planChartLabels,
     {}
   )
-  const planChartSeries = createReducer(
-    window.STATE_FROM_SERVER.planChartSeries,
-    {}
-  )
 
   const selectedTechnicalAreaId = createReducer(null, {
     [SELECT_TECHNICAL_AREA]: (state, dispatchedAction) => {
@@ -110,18 +128,37 @@ export default function initReducers() {
     },
   })
 
+  const selectedActionTypeOrdinal = createReducer(null, {
+    [SELECT_ACTION_TYPE]: (state, dispatchedAction) => {
+      return dispatchedAction.payload.actionTypeOrdinal
+    },
+    // eslint-disable-next-line no-unused-vars
+    [DESELECT_ACTION_TYPE]: (state, dispatchedAction) => {
+      return null
+    },
+  })
+
   const allActions = createReducer(window.STATE_FROM_SERVER.actions, {})
+
+  const selectedListMode = createReducer(LIST_MODE_BY_TECHNICAL_AREA, {
+    [SWITCH_LIST_MODE]: (state, dispatchedAction) => {
+      return dispatchedAction.payload.listModeOrdinal
+    },
+  })
 
   return combineReducers({
     technicalAreas,
+    technicalAreaMap,
     indicators,
+    indicatorMap,
     actions,
     planActionIds,
     planActionIdsByIndicator,
     planActionIdsNotInIndicator,
     planChartLabels,
-    planChartSeries,
     allActions,
     selectedTechnicalAreaId,
+    selectedActionTypeOrdinal,
+    selectedListMode,
   })
 }
