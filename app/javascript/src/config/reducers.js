@@ -146,6 +146,15 @@ export default function initReducers() {
     },
   })
 
+  const initialPlanGoalMap = window.STATE_FROM_SERVER.planGoals.reduce(
+    (acc, goal) => {
+      acc[goal.benchmark_indicator_id] = goal
+      return acc
+    },
+    {}
+  )
+  const planGoalMap = createReducer(initialPlanGoalMap, {})
+
   return combineReducers({
     technicalAreas,
     technicalAreaMap,
@@ -160,5 +169,6 @@ export default function initReducers() {
     selectedTechnicalAreaId,
     selectedActionTypeOrdinal,
     selectedListMode,
+    planGoalMap,
   })
 }

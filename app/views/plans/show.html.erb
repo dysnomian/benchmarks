@@ -25,19 +25,7 @@ end %>
 
 <div class="row">
 
-  <div class="col plan-container"
-       data-controller="plan-is-what-it-used-to-be"
-       data-plan-term='<%= @plan.term %>'
-       data-plan-nudge-selectors='["#nudge-by-technical-area", "#nudge-by-action-type"]'
-       data-plan-nudge-content-selectors='["#nudge-for-technical-area-1-year", "#nudge-for-technical-area-5-year"]'
-       data-plan-nudge-template-selector="#nudge-template"
-       data-plan-nudge-content-zero-selector='#nudge-content-zero'
-       data-plan-chart-selectors='["#bar-chart-by-technical-area", "#bar-chart-by-action-type"]'
-       data-plan-chart-labels='<%= [chart_labels_by_technical_area, BenchmarkIndicatorAction::ACTION_TYPES].to_json %>'
-       data-plan-chart-series='<%= [@count_actions_by_ta, @count_actions_by_type].to_json %>'
-       data-plan-chart-width="100%"
-       data-plan-chart-height="240"
-  >
+  <div class="col plan-container">
     <%= form_for @plan, class: "needs-validation", novalidate: true, data: { target: "plan.form" } do |form| %>
       <%= form.hidden_field :benchmark_action_ids,
                             value: nil, # populated later via JS upon form submit event
@@ -63,6 +51,7 @@ end %>
         actions: <%= raw @all_actions.to_json %>,
         plan: <%= raw @plan.to_json %>,
         planActionIds: <%= @plan.action_ids %>,
+        planGoals: <%= raw @plan.goals.to_json %>,
         planChartLabels: <%= raw [chart_labels_by_technical_area, BenchmarkIndicatorAction::ACTION_TYPES].to_json %>,
     };
     window.NUDGES_BY_ACTION_TYPE = <%= raw @nudges_by_action_type_json %>;

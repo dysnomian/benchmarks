@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import AddAction from "./AddAction"
 import IndicatorActionList from "./IndicatorActionList"
 
 const Indicator = (props) => {
@@ -16,7 +15,6 @@ const Indicator = (props) => {
         </div>
       </div>
       <IndicatorActionList indicator={indicator} />
-      <AddAction indicator={indicator} />
     </div>
   )
 }

@@ -27,7 +27,6 @@ const indicatorJson = {
 jest.mock("components/list/IndicatorActionList", () => () => (
   <mock-indicator-list />
 ))
-jest.mock("components/list/AddAction", () => () => <mock-add-action />)
 
 it("Indicator populates itself with the correct information", () => {
   act(() => {
@@ -35,5 +34,4 @@ it("Indicator populates itself with the correct information", () => {
   })
   expect(container.textContent).toContain(indicatorJson.text)
   expect(container.querySelectorAll("mock-indicator-list").length).toEqual(1)
-  expect(container.querySelectorAll("mock-add-action").length).toEqual(1)
 })

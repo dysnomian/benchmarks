@@ -40,5 +40,6 @@ function stubStateFromServer() {
     planChartLabels: [],
     allActions: [],
     selectedTechnicalAreaId: null,
+    planGoals: [],
   }
 }
