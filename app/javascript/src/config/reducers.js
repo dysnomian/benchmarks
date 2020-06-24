@@ -155,6 +155,10 @@ export default function initReducers() {
   )
   const planGoalMap = createReducer(initialPlanGoalMap, {})
 
+  const plan = createReducer(window.STATE_FROM_SERVER.plan, {})
+
+  const nudgesByActionType = createReducer(window.NUDGES_BY_ACTION_TYPE, {})
+
   return combineReducers({
     technicalAreas,
     technicalAreaMap,
@@ -170,5 +174,7 @@ export default function initReducers() {
     selectedActionTypeOrdinal,
     selectedListMode,
     planGoalMap,
+    plan,
+    nudgesByActionType,
   })
 }

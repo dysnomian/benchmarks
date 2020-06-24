@@ -4,6 +4,7 @@ import ChartistGraph from "react-chartist"
 import PropTypes from "prop-types"
 import $ from "jquery"
 import { selectActionType } from "../../config/actions"
+import { countActionsByActionType } from "../../config/selectors"
 
 class BarChartByActionType extends React.Component {
   constructor(props) {
@@ -11,18 +12,14 @@ class BarChartByActionType extends React.Component {
     if (!this.chartistGraphInstance) {
       this.chartistGraphInstance = null // will be a ref to the chartist instance
     }
+    this.chartLabels = this.props.chartLabels[1]
   }
 
   render() {
-    const chartLabels = this.props.chartLabels[1]
-    const countActionsByActionType = this.constructor.countActionsByActionType(
-      chartLabels.length,
-      this.props.planActionIds,
-      this.props.allActions
-    )
+    const countActionsByActionType = this.props.countActionsByActionType
     const { data, options } = this.getBarChartOptions(
       countActionsByActionType,
-      chartLabels
+      this.chartLabels
     )
     return (
       <div className="chart-container ct-chart-bar">
@@ -72,13 +69,8 @@ class BarChartByActionType extends React.Component {
   }
 
   initInteractivityForChart() {
-    const chartLabels = this.props.chartLabels[1]
     const dispatch = this.props.dispatch
-    const countActionsByTechnicalArea = this.constructor.countActionsByActionType(
-      chartLabels.length,
-      this.props.planActionIds,
-      this.props.allActions
-    )
+    const countActionsByTechnicalArea = this.props.countActionsByActionType
     const technicalAreas = this.props.technicalAreas
     const chartistGraph = this.chartistGraphInstance
     chartistGraph.chartist.detach()
@@ -103,7 +95,7 @@ class BarChartByActionType extends React.Component {
     index,
     countActions
   ) {
-    const tooltipTitle = `${this.props.technicalAreas[index].text}: ${countActions}`
+    const tooltipTitle = `${this.chartLabels[index]}: ${countActions}`
     $($elBarSegment)
       .attr("title", tooltipTitle)
       .attr("data-toggle", "tooltip")
@@ -120,24 +112,6 @@ class BarChartByActionType extends React.Component {
       dispatch(selectActionType(technicalArea.id))
     })
   }
-
-  static countActionsByActionType(numOfActionTypes, actionIds, actions) {
-    let currentActions = this.getActionsForIds(actions, actionIds)
-    return currentActions.reduce((acc, action) => {
-      const currentActionTypes = action.action_types
-      if (currentActionTypes && currentActionTypes.length > 0) {
-        currentActionTypes.forEach((intActionType) => {
-          const indexOfActionType = intActionType - 1
-          acc[indexOfActionType] += 1
-        })
-      }
-      return acc
-    }, Array(numOfActionTypes).fill(0))
-  }
-
-  static getActionsForIds(actions, actionIds) {
-    return actions.filter((action) => actionIds.indexOf(action.id) > 0)
-  }
 }
 
 BarChartByActionType.propTypes = {
@@ -148,6 +122,7 @@ BarChartByActionType.propTypes = {
   planActionIds: PropTypes.array.isRequired,
   allActions: PropTypes.array.isRequired,
   dispatch: PropTypes.func,
+  countActionsByActionType: PropTypes.array,
 }
 
 const mapStateToProps = (state /*, ownProps*/) => {
@@ -156,6 +131,7 @@ const mapStateToProps = (state /*, ownProps*/) => {
     chartLabels: state.planChartLabels,
     planActionIds: state.planActionIds,
     allActions: state.allActions,
+    countActionsByActionType: countActionsByActionType(state),
   }
 }
 

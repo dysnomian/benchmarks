@@ -1,8 +1,8 @@
 import { expect, it, beforeEach, afterEach } from "@jest/globals"
 import React from "react"
-import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
-import NoGoalForThisIndicator from "components/list/NoGoalForThisIndicator"
+import NudgeByTechnicalAreaFiveYear from "components/ChartCard/NudgeByTechnicalAreaFiveYear"
+import ReactDOM from "react-dom"
 
 let container
 beforeEach(() => {
@@ -17,9 +17,9 @@ afterEach(() => {
 
 it("renders successfully", () => {
   act(() => {
-    ReactDOM.render(<NoGoalForThisIndicator />, container)
+    ReactDOM.render(<NudgeByTechnicalAreaFiveYear />, container)
   })
-  expect(container.textContent).toContain("no capacity gap")
-  expect(container.querySelectorAll(".row").length).toEqual(1)
-  expect(container.querySelectorAll(".col").length).toEqual(1)
+
+  expect(container.querySelectorAll("ul").length).toEqual(1)
+  expect(container.querySelectorAll("li").length).toEqual(3)
 })

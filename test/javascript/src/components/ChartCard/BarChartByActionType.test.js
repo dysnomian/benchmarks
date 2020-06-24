@@ -2,6 +2,7 @@ import fs from "fs"
 import React from "react"
 import { render as renderForConnect } from "../../../test-utils-for-react"
 import BarChartByActionType from "components/ChartCard/BarChartByActionType"
+import { countActionsByActionType } from "config/selectors"
 
 const strTechnicalAreas = fs.readFileSync(
   `${__dirname}/../../../../fixtures/files/all_benchmark_technical_areas.json`,
@@ -12,7 +13,12 @@ const strActions = fs.readFileSync(
   "utf-8"
 )
 
+jest.mock("config/selectors", () => ({
+  countActionsByActionType: jest.fn(),
+}))
+
 it("BarChartByActionType has the expected 2 divs", () => {
+  countActionsByActionType.mockReturnValue([])
   const renderedComponent = renderForConnect(
     <BarChartByActionType width="100%" height="240" />,
     {
