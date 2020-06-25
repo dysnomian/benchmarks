@@ -29,10 +29,8 @@ class PlanEditPage extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col mt-4">
-            <ActionList />
-          </div>
+        <div className="row my-4">
+          <ActionList />
         </div>
       </Provider>
     )

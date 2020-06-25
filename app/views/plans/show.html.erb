@@ -36,7 +36,7 @@ end %>
       <!-- Plan Form: Edit Name, Save Button (its a DIV.row) -->
       <%= render "plan_name_sticky", form: form %>
 
-      <%= react_component("PlanEditPage") %>
+      <%= react_component("PlanEditPage", {}, {class: "col"}) %>
 
     <% end %>
   </div>

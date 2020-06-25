@@ -13,9 +13,19 @@ const ActionListByActionType = () => {
     const action_types = currentAction.action_types || []
     return action_types.indexOf(selectedActionTypeOrdinal) >= 0
   })
-  return actionIdsToDisplay.map((actionId) => {
+  const actionComponents = actionIdsToDisplay.map((actionId) => {
     return <Action id={actionId} key={actionId} />
   })
+  const chartLabels = useSelector((state) => state.planChartLabels)
+  const chartLabelsByActionType = chartLabels[1]
+  const nameOfSelectedActionType =
+    chartLabelsByActionType[selectedActionTypeOrdinal - 1]
+  return (
+    <div id="action-list-by-type-container" className="col-auto w-100">
+      <h2>{nameOfSelectedActionType} Actions</h2>
+      <div className="col">{actionComponents}</div>
+    </div>
+  )
 }
 
 export default ActionListByActionType

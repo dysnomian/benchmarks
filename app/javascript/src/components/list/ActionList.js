@@ -8,11 +8,13 @@ const ActionList = () => {
   const listMode = useSelector((state) => {
     return state.selectedListMode
   })
+  let whichListToRender
   if (listMode === LIST_MODE_BY_ACTION_TYPE) {
-    return <ActionListByActionType />
+    whichListToRender = <ActionListByActionType />
   } else {
-    return <ActionListByTechnicalArea />
+    whichListToRender = <ActionListByTechnicalArea />
   }
+  return whichListToRender
 }
 
 export default ActionList

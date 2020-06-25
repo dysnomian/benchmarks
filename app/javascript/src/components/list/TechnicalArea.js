@@ -15,12 +15,12 @@ const TechnicalArea = (props) => {
   })
 
   return (
-    <>
+    <div className="technical-area-container">
       <h3>
         {technicalArea.sequence}. {technicalArea.text}
       </h3>
       {compsForIndicators}
-    </>
+    </div>
   )
 }
 

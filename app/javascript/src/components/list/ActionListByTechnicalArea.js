@@ -14,11 +14,18 @@ const ActionListByTechnicalArea = () => {
       return true
     }
   })
-  return filteredTechnicalAreas.map((technicalArea) => {
-    return (
-      <TechnicalArea technicalArea={technicalArea} key={technicalArea.id} />
-    )
-  })
+  const technicalAreaComponents = filteredTechnicalAreas.map(
+    (technicalArea) => {
+      return (
+        <TechnicalArea technicalArea={technicalArea} key={technicalArea.id} />
+      )
+    }
+  )
+  return (
+    <div id="action-list-by-tech-container" className="col-auto w-100">
+      {technicalAreaComponents}
+    </div>
+  )
 }
 
 export default ActionListByTechnicalArea

@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { act } from "react-dom/test-utils"
 import { useSelector } from "react-redux"
-import { LIST_MODE_BY_ACTION_TYPE } from "config/constants"
 import ActionListByActionType from "components/list/ActionListByActionType"
 
 jest.mock("components/list/Action", () => () => <mock-action />)
@@ -14,13 +13,53 @@ let container
 beforeEach(() => {
   container = document.createElement("div")
   document.body.appendChild(container)
-  const selectedActionTypeOrdinal = LIST_MODE_BY_ACTION_TYPE
+  const selectedActionTypeOrdinal = 3
   const action1 = { id: 17, action_types: null }
   const action2 = { id: 19, action_types: [selectedActionTypeOrdinal] }
   const action3 = { id: 37, action_types: [3, selectedActionTypeOrdinal] }
   const action4 = { id: 41, action_types: [3, 17, selectedActionTypeOrdinal] }
   const action5 = { id: 47, action_types: [] }
   const action6 = { id: 53, action_types: [selectedActionTypeOrdinal] }
+  // TODO: factor out this planChartLabels data to DRY up this and other uses prob into a file instead.
+  const planChartLabels = [
+    [
+      "Legislation",
+      "IHR coordination",
+      "AMR",
+      "Zoonotic disease",
+      "Food safety",
+      "Immunization",
+      "Laboratory",
+      "Biosafety \u0026 biosecurity",
+      "Surveillance",
+      "Human resources",
+      "Preparedness",
+      "Rapid response",
+      "Linking public health",
+      "Medical countermeasures",
+      "Risk communication",
+      "Points of entry",
+      "Chemical events",
+      "Radiation",
+    ],
+    [
+      "Advocacy",
+      "Assessment and Data Use",
+      "Coordination",
+      "Designation",
+      "Dissemination",
+      "Financing",
+      "Monitoring and Evaluation",
+      "Planning and Strategy",
+      "Procurement",
+      "Program Implementation",
+      "SimEx and AAR",
+      "SOPs",
+      "Surveillance",
+      "Tool Development",
+      "Training",
+    ],
+  ]
   useSelector
     .mockImplementationOnce((callback) =>
       callback({
@@ -51,6 +90,7 @@ beforeEach(() => {
         selectedActionTypeOrdinal: selectedActionTypeOrdinal,
       })
     )
+    .mockImplementationOnce((cb) => cb({ planChartLabels: planChartLabels }))
 })
 
 afterEach(() => {
