@@ -12,6 +12,7 @@ import {
   DESELECT_ACTION_TYPE,
   LIST_MODE_BY_TECHNICAL_AREA,
   SWITCH_LIST_MODE,
+  UPDATE_PLAN_NAME,
 } from "./constants"
 
 export default function initReducers() {
@@ -155,9 +156,13 @@ export default function initReducers() {
   )
   const planGoalMap = createReducer(initialPlanGoalMap, {})
 
-  const plan = createReducer(window.STATE_FROM_SERVER.plan, {})
-
   const nudgesByActionType = createReducer(window.NUDGES_BY_ACTION_TYPE, {})
+
+  const plan = createReducer(window.STATE_FROM_SERVER.plan, {
+    [UPDATE_PLAN_NAME]: (state, action) => {
+      state.name = action.payload.name
+    },
+  })
 
   return combineReducers({
     technicalAreas,
@@ -174,7 +179,7 @@ export default function initReducers() {
     selectedActionTypeOrdinal,
     selectedListMode,
     planGoalMap,
-    plan,
     nudgesByActionType,
+    plan,
   })
 }

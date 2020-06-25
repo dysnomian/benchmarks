@@ -23,29 +23,11 @@ end %>
     "Radiation",
 ] %>
 
-<div class="row">
-
-  <div class="col plan-container">
-    <%= form_for @plan, class: "needs-validation", novalidate: true, data: { target: "plan.form" } do |form| %>
-      <%= form.hidden_field :benchmark_action_ids,
-                            value: nil, # populated later via JS upon form submit event
-                            data: {target: "plan.fieldForActionIds"},
-                            autocomplete: "off"
-      %>
-
-      <!-- Plan Form: Edit Name, Save Button (its a DIV.row) -->
-      <%= render "plan_name_sticky", form: form %>
-
-      <%= react_component("PlanEditPage", {}, {class: "col"}) %>
-
-    <% end %>
-  </div>
-
-</div>
-
+<%= react_component("PlanEditPage") %>
 
 <script type="application/javascript">
     window.STATE_FROM_SERVER = {
+        authenticityToken: "<%= form_authenticity_token %>",
         technicalAreas: <%= raw @benchmark_technical_areas.to_json %>,
         indicators: <%= raw @benchmark_indicators.to_json %>,
         actions: <%= raw @all_actions.to_json %>,

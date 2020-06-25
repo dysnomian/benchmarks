@@ -27,9 +27,14 @@ const countActionsByActionType = createSelector(
   }
 )
 
+const authenticityToken = () => {
+  return window.STATE_FROM_SERVER.authenticityToken
+}
+
 export {
   getAllActions,
   getPlanActionIds,
   getActionsForIds,
   countActionsByActionType,
+  authenticityToken,
 }

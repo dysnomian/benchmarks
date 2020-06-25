@@ -12,6 +12,7 @@ import {
   SWITCH_LIST_MODE,
   LIST_MODE_BY_TECHNICAL_AREA,
   LIST_MODE_BY_ACTION_TYPE,
+  UPDATE_PLAN_NAME,
 } from "./constants"
 
 const deleteAnAction = (actionId, indicatorId) => {
@@ -89,10 +90,17 @@ const clearFilterCriteria = () => {
   }
 }
 
+const updatePlanName = (name) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_PLAN_NAME, payload: { name: name } })
+  }
+}
+
 export {
   addActionToIndicator,
   deleteAnAction,
   selectTechnicalArea,
   selectActionType,
   clearFilterCriteria,
+  updatePlanName,
 }
