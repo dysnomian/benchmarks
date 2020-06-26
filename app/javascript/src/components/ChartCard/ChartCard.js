@@ -52,7 +52,7 @@ const ChartCard = () => {
               {
                 // Actual Chart, by Technical Area
               }
-              <BarChartByTechnicalArea width="100%" height="240" />
+              <BarChartByTechnicalArea width="700" height="240" />
             </div>
 
             {
@@ -77,7 +77,7 @@ const ChartCard = () => {
               {
                 // Actual Chart, by Action Type
               }
-              <BarChartByActionType width="100%" height="240" />
+              <BarChartByActionType width="700" height="240" />
             </div>
 
             {
