@@ -1,6 +1,8 @@
+import { expect, it, beforeEach, afterEach } from "@jest/globals"
 import React from "react"
-import { render as renderForConnect } from "../../../test-utils-for-react"
 import ChartCard from "components/ChartCard/ChartCard"
+import { act } from "react-dom/test-utils"
+import ReactDOM from "react-dom"
 
 jest.mock("components/ChartCard/BarChartByTechnicalArea", () => () => (
   <mock-BarChartByTechnicalArea />
@@ -15,9 +17,22 @@ jest.mock("components/ChartCard/NudgeByActionType", () => () => (
   <mock-NudgeByActionType />
 ))
 
+let container
+beforeEach(() => {
+  container = document.createElement("div")
+  document.body.appendChild(container)
+})
+
+afterEach(() => {
+  document.body.removeChild(container)
+  container = null
+})
+
 it("ChartCard has one child BarChartByTechnicalArea component", () => {
-  const renderedComponent = renderForConnect(<ChartCard />)
-  const container = renderedComponent.container
+  act(() => {
+    ReactDOM.render(<ChartCard />, container)
+  })
+
   const mockBarchartbytechnicalarea = container.querySelectorAll(
     "mock-barchartbytechnicalarea"
   )
@@ -26,8 +41,10 @@ it("ChartCard has one child BarChartByTechnicalArea component", () => {
 })
 
 it("ChartCard has one child BarChartByActionType component", () => {
-  const renderedComponent = renderForConnect(<ChartCard />)
-  const container = renderedComponent.container
+  act(() => {
+    ReactDOM.render(<ChartCard />, container)
+  })
+
   const mockBarchartbyactiontype = container.querySelectorAll(
     "mock-barchartbyactiontype"
   )
@@ -36,8 +53,10 @@ it("ChartCard has one child BarChartByActionType component", () => {
 })
 
 it("ChartCard has one child NudgeByTechnicalArea component", () => {
-  const renderedComponent = renderForConnect(<ChartCard />)
-  const container = renderedComponent.container
+  act(() => {
+    ReactDOM.render(<ChartCard />, container)
+  })
+
   const mockBarchartbyactiontype = container.querySelectorAll(
     "mock-NudgeByTechnicalArea"
   )
@@ -46,8 +65,10 @@ it("ChartCard has one child NudgeByTechnicalArea component", () => {
 })
 
 it("ChartCard has one child NudgeByActionType component", () => {
-  const renderedComponent = renderForConnect(<ChartCard />)
-  const container = renderedComponent.container
+  act(() => {
+    ReactDOM.render(<ChartCard />, container)
+  })
+
   const mockBarchartbyactiontype = container.querySelectorAll(
     "mock-NudgeByActionType"
   )
@@ -56,8 +77,10 @@ it("ChartCard has one child NudgeByActionType component", () => {
 })
 
 it("ChartCard has the expected content children", () => {
-  const renderedComponent = renderForConnect(<ChartCard />)
-  const container = renderedComponent.container
+  act(() => {
+    ReactDOM.render(<ChartCard />, container)
+  })
+
   const elPlanCard = container.querySelectorAll(".plan.card")
   const elTabForTechnicalArea = container.querySelectorAll(
     "#tabForTechnicalArea"
