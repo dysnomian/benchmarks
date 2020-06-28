@@ -159,8 +159,8 @@ export default function initReducers() {
   const nudgesByActionType = createReducer(window.NUDGES_BY_ACTION_TYPE, {})
 
   const plan = createReducer(window.STATE_FROM_SERVER.plan, {
-    [UPDATE_PLAN_NAME]: (state, action) => {
-      state.name = action.payload.name
+    [UPDATE_PLAN_NAME]: (state, dispatchedAction) => {
+      state.name = dispatchedAction.payload.name
     },
   })
 

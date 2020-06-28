@@ -27,7 +27,8 @@ end %>
 
 <script type="application/javascript">
     window.STATE_FROM_SERVER = {
-        authenticityToken: "<%= form_authenticity_token %>",
+        formAuthenticityToken: "<%= form_authenticity_token %>",
+        formActionUrl: "<%= url_for(@plan) %>",
         technicalAreas: <%= raw @benchmark_technical_areas.to_json %>,
         indicators: <%= raw @benchmark_indicators.to_json %>,
         actions: <%= raw @all_actions.to_json %>,

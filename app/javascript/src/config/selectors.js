@@ -27,14 +27,15 @@ const countActionsByActionType = createSelector(
   }
 )
 
-const authenticityToken = () => {
-  return window.STATE_FROM_SERVER.authenticityToken
-}
+const getFormAuthenticityToken = () =>
+  window.STATE_FROM_SERVER.formAuthenticityToken
+const getFormActionUrl = () => window.STATE_FROM_SERVER.formActionUrl
 
 export {
   getAllActions,
   getPlanActionIds,
   getActionsForIds,
   countActionsByActionType,
-  authenticityToken,
+  getFormAuthenticityToken,
+  getFormActionUrl,
 }
