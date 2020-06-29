@@ -6,7 +6,10 @@ const Indicator = (props) => {
   const indicator = props.indicator
 
   return (
-    <div className="benchmark-container col">
+    <div
+      className="benchmark-container col"
+      data-benchmark-indicator-display-abbrev={indicator.display_abbreviation}
+    >
       <div className="row bg-light-gray px-2 header">
         <div className="col-11">
           <b>Benchmark {indicator.display_abbreviation}:</b>

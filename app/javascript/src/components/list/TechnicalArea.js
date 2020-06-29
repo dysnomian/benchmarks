@@ -15,7 +15,10 @@ const TechnicalArea = (props) => {
   })
 
   return (
-    <div className="technical-area-container">
+    <div
+      className="technical-area-container"
+      id={`technical-area-${technicalArea.sequence}`}
+    >
       <h3>
         {technicalArea.sequence}. {technicalArea.text}
       </h3>
