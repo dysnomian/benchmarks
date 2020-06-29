@@ -9,13 +9,13 @@ const IndicatorActionList = (props) => {
   const indicator = props.indicator
   const planGoalMap = useSelector((state) => state.planGoalMap)
   const goalForThisIndicator = planGoalMap[indicator.id]
+  const planActionIdsByIndicator = useSelector((state) => {
+    return state.planActionIdsByIndicator
+  })
   if (!goalForThisIndicator) {
     return <NoGoalForThisIndicator />
   }
 
-  const planActionIdsByIndicator = useSelector((state) => {
-    return state.planActionIdsByIndicator
-  })
   const actionIdsByIndicator = planActionIdsByIndicator[indicator.id]
   const actionComponents = actionIdsByIndicator.map((actionId) => (
     <Action id={actionId} key={"action-" + indicator.id + "-" + actionId} />
